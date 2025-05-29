@@ -113,7 +113,10 @@ function export_jld2_h5(path_data_dict::String; path_h5::Union{String,Nothing}=n
         g2["velocity"] = velocity_filter ? velocity_filt : velocity
         g2["reversal_vec"] = reversal_vec
         g2["reversal_events"] = reversal_events
+        g2["pumping"] = ones(size(velocity)) .* -9999  # supply an unrealistic value to make yet-to-be-annotated datasets available on flv-utils
 
+        # if pumping is not found in data_dict, the default unrealistic value will be kept
+        # if pumping is found in data_dict, the actual value will overwrite the unrealistic default
         list_key = ["head_angle", "angular_velocity", "pumping", "worm_curvature", "worm_angle",
             "body_angle_absolute", "body_angle_all", "body_angle", "zeroed_x_confocal", "zeroed_y_confocal"]
         for k = list_key
